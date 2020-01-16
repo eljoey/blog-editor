@@ -8,6 +8,12 @@ const setToken = newToken => {
   token = `bearer ${newToken}`
 }
 
+const getBlogs = async () => {
+  const blogs = await axios.get(baseUrl)
+  return blogs.data
+}
+
 export default {
-  setToken
+  setToken,
+  getBlogs
 }
