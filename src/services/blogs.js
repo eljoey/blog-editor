@@ -13,7 +13,13 @@ const getBlogs = async () => {
   return blogs.data
 }
 
+const getBlogId = async id => {
+  const blog = await axios.get(`${baseUrl}/${id}`)
+  return blog.data
+}
+
 export default {
   setToken,
-  getBlogs
+  getBlogs,
+  getBlogId
 }

@@ -3,7 +3,7 @@ import { useField } from '../hooks'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 import Notification from './Notification'
-import Input from './Input'
+import Input from './FormHelpers/Input'
 
 const Login = ({ setUser, setMessage, message }) => {
   const name = useField('text')
