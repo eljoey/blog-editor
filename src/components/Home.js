@@ -7,7 +7,7 @@ const Home = ({ blogs }) => {
       return <div>No Blogs!</div>
     } else {
       return blogs.map(blog => (
-        <div>
+        <div key={blog._id}>
           <span>- </span>
           <Link to={`/blogs/${blog._id}`}>
             {' '}

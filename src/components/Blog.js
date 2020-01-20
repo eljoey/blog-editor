@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import blogService from '../services/blogs'
 import Comments from './Comments'
+import Input from './FormHelpers/Input'
+import TextArea from './FormHelpers/TextArea'
+import { useField } from '../hooks/index'
 
 const Blog = props => {
   const [curBlog, setCurBlog] = useState({})
-
+  const title = useField('text')
+  const content = useField('textarea')
   const blogId = props.location.pathname.split('/blogs/')[1]
 
   useEffect(() => {
@@ -20,29 +24,40 @@ const Blog = props => {
     flexDirection: 'column'
   }
 
-  const handleChange = e => {
-    const value = e.target.value
-    console.log(e.target.name)
-    setCurBlog({
+  const handleSubmit = async e => {
+    e.preventDefault()
+    if (title.value === '') title.value = curBlog.title
+    if (content.value === '') content.value = curBlog.content
+
+    const editedBlog = {
       ...curBlog,
-      [e.target.name]: value
-    })
+      title: title.value,
+      content: content.value
+    }
+
+    const updatedBlog = await blogService.editBlog(blogId, editedBlog)
+
+    const newBlog = {
+      ...curBlog,
+      title: updatedBlog.title,
+      content: updatedBlog.content
+    }
+
+    setCurBlog(newBlog)
   }
 
   return (
-    <div style={style}>
-      <input
-        type="text"
-        name="title"
-        value={curBlog.title || ''}
-        onChange={handleChange}
-      />
-      <textarea
-        type="textarea"
-        name="content"
-        value={curBlog.content || ''}
-        onChange={handleChange}
-      />
+    <div>
+      <form style={style} onSubmit={handleSubmit}>
+        <Input
+          value={curBlog.title}
+          type={title.type}
+          onChange={title.onChange}
+        />
+        <TextArea value={curBlog.content} onChange={content.onChange} />
+
+        <button type="submit">submit</button>
+      </form>
       <Comments comments={curBlog.comments} />
     </div>
   )
