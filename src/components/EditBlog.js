@@ -5,7 +5,7 @@ import Input from './FormHelpers/Input'
 import TextArea from './FormHelpers/TextArea'
 import { useField } from '../hooks/index'
 
-const Blog = props => {
+const EditBlog = props => {
   const [curBlog, setCurBlog] = useState({})
   const title = useField('text')
   const content = useField('textarea')
@@ -63,4 +63,4 @@ const Blog = props => {
   )
 }
 
-export default Blog
+export default EditBlog
