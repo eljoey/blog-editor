@@ -17,7 +17,7 @@ function App() {
       setUser(user)
       blogService.setToken(user.token)
     }
-  }, [])
+  }, [blogs])
 
   useEffect(() => {
     async function fetchBlogs() {

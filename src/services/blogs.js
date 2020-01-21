@@ -28,9 +28,21 @@ const editBlog = async (id, editedBlog) => {
   return updatedBlog.data
 }
 
+const createBlog = async blog => {
+  const config = {
+    headers: {
+      Authorization: token
+    }
+  }
+
+  const createdBlog = await axios.post(`${baseUrl}/create`, blog, config)
+  return createdBlog.data
+}
+
 export default {
   setToken,
   getBlogs,
   getBlogId,
-  editBlog
+  editBlog,
+  createBlog
 }
