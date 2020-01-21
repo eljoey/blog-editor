@@ -17,7 +17,7 @@ const EditBlog = props => {
       setCurBlog(res)
     }
     getBlog()
-  }, [blogId])
+  }, [blogId, curBlog])
 
   const style = {
     display: 'flex',

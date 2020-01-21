@@ -46,7 +46,7 @@ const deleteBlog = async id => {
     }
   }
 
-  const deletedBlog = await axios.post(`${baseUrl}/delete/${id}`, config)
+  const deletedBlog = await axios.post(`${baseUrl}/delete/${id}`, null, config)
   return deletedBlog.data
 }
 
@@ -59,6 +59,7 @@ const deleteComment = async id => {
 
   const deletedComment = await axios.post(
     `${baseUrl}/comment/delete/${id}`,
+    null,
     config
   )
   return deletedComment.data
