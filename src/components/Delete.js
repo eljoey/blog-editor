@@ -11,8 +11,12 @@ const Delete = ({ type, id }) => {
     }
   }
 
+  const style = {
+    paddingLeft: '25px'
+  }
+
   return (
-    <div>
+    <div style={style}>
       <button onClick={handleClick}>Delete</button>
     </div>
   )
