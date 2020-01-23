@@ -13,7 +13,8 @@ const CreateBlog = props => {
     e.preventDefault()
     const blog = {
       title: title.value,
-      content: content.value
+      content: content.value,
+      timestamp: Date.now()
     }
 
     await blogService.createBlog(blog)
