@@ -4,6 +4,7 @@ import Comments from './Comments'
 import Input from './FormHelpers/Input'
 import TextArea from './FormHelpers/TextArea'
 import { useField } from '../hooks/index'
+import { withRouter } from 'react-router-dom'
 
 const EditBlog = props => {
   const [curBlog, setCurBlog] = useState({})
@@ -17,7 +18,7 @@ const EditBlog = props => {
       setCurBlog(res)
     }
     getBlog()
-  }, [blogId, curBlog])
+  }, [blogId])
 
   const style = {
     display: 'flex',
@@ -44,6 +45,8 @@ const EditBlog = props => {
     }
 
     setCurBlog(newBlog)
+
+    props.history.push('/')
   }
 
   return (
@@ -63,4 +66,4 @@ const EditBlog = props => {
   )
 }
 
-export default EditBlog
+export default withRouter(EditBlog)
