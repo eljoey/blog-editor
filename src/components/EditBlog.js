@@ -6,6 +6,8 @@ import { useField } from '../hooks/index'
 import { withRouter } from 'react-router-dom'
 import { Editor } from '@tinymce/tinymce-react'
 
+require('dotenv').config()
+
 const EditBlog = props => {
   const [curBlog, setCurBlog] = useState({})
   const [editorContent, setEditorContent] = useState('')

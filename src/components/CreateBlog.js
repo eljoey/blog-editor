@@ -5,6 +5,8 @@ import { withRouter } from 'react-router-dom'
 import blogService from '../services/blogs'
 import { Editor } from '@tinymce/tinymce-react'
 
+require('dotenv').config()
+
 const CreateBlog = props => {
   const [editorContent, setEditorContent] = useState('')
   const title = useField('text')
