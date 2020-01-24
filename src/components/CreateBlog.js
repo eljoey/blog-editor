@@ -1,19 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useField } from '../hooks/index'
 import Input from './FormHelpers/Input'
-import TextArea from './FormHelpers/TextArea'
 import { withRouter } from 'react-router-dom'
 import blogService from '../services/blogs'
+import { Editor } from '@tinymce/tinymce-react'
 
 const CreateBlog = props => {
+  const [editorContent, setEditorContent] = useState('')
   const title = useField('text')
-  const content = useField('textarea')
+  const editorAPIKey = process.env.REACT_APP_EDITOR_API_KEY
 
   const handleSubmit = async e => {
     e.preventDefault()
     const blog = {
       title: title.value,
-      content: content.value,
+      content: editorContent,
       timestamp: Date.now()
     }
 
@@ -30,8 +31,16 @@ const CreateBlog = props => {
 
   return (
     <form style={style} onSubmit={handleSubmit}>
-      <Input {...title} />
-      <TextArea {...content} />
+      <Input {...title} placeholder="Add Title" />
+      <Editor
+        apiKey={editorAPIKey}
+        init={{
+          height: 500,
+          menubar: false
+        }}
+        initialValue=""
+        onEditorChange={setEditorContent}
+      />
       <button type="submit">Submit</button>
     </form>
   )

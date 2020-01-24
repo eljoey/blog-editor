@@ -2,14 +2,19 @@ import React, { useState, useEffect } from 'react'
 import blogService from '../services/blogs'
 import Comments from './Comments'
 import Input from './FormHelpers/Input'
-import TextArea from './FormHelpers/TextArea'
+// import TextArea from './FormHelpers/TextArea'
 import { useField } from '../hooks/index'
 import { withRouter } from 'react-router-dom'
+import { Editor } from '@tinymce/tinymce-react'
 
 const EditBlog = props => {
   const [curBlog, setCurBlog] = useState({})
+  const [editorContent, setEditorContent] = useState('')
+
+  // custom text input hook
   const title = useField('text')
-  const content = useField('textarea')
+
+  const editorAPIKey = process.env.REACT_APP_EDITOR_API_KEY
   const blogId = props.location.pathname.split('/blogs/')[1]
 
   useEffect(() => {
@@ -20,33 +25,29 @@ const EditBlog = props => {
     getBlog()
   }, [blogId])
 
-  const style = {
-    display: 'flex',
-    flexDirection: 'column'
-  }
+  // updates editor with blog content
+  useEffect(() => {
+    setEditorContent(curBlog.content)
+  }, [curBlog])
 
   const handleSubmit = async e => {
     e.preventDefault()
     if (title.value === '') title.value = curBlog.title
-    if (content.value === '') content.value = curBlog.content
 
     const editedBlog = {
       ...curBlog,
       title: title.value,
-      content: content.value
+      content: editorContent
     }
 
-    const updatedBlog = await blogService.editBlog(blogId, editedBlog)
-
-    const newBlog = {
-      ...curBlog,
-      title: updatedBlog.title,
-      content: updatedBlog.content
-    }
-
-    setCurBlog(newBlog)
+    await blogService.editBlog(blogId, editedBlog)
 
     props.history.push('/')
+  }
+
+  const style = {
+    display: 'flex',
+    flexDirection: 'column'
   }
 
   return (
@@ -57,8 +58,15 @@ const EditBlog = props => {
           type={title.type}
           onChange={title.onChange}
         />
-        <TextArea value={curBlog.content} onChange={content.onChange} />
-
+        <Editor
+          apiKey={editorAPIKey}
+          initialValue={editorContent}
+          init={{
+            height: 500,
+            menubar: false
+          }}
+          onEditorChange={setEditorContent}
+        />
         <button type="submit">submit</button>
       </form>
       <Comments comments={curBlog.comments} />
